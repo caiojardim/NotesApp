@@ -1,15 +1,30 @@
 import { Container } from "./style"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-
-const markdown = `# Hello World`
+import {useState} from "react";
 
 export function Main() {
+    const [noteValue, setNoteValue] = useState('')
+
+    function handleInput(event:any){
+        let element = event.target
+        setNoteValue(element.value);
+
+        while (element.scrollHeight < element.offsetHeight && element.rows > 5) {
+            element.rows -= 1;
+        }
+        while (element.scrollHeight > element.offsetHeight) {
+            element.rows += 1;
+        }     
+    }
+
     return(
         <Container>
-            <textarea name="" id="" cols={30} rows={10}></textarea>
+            <textarea 
+            onInput={handleInput}
+            name="" id="" cols={30} rows={5}></textarea>
             <ReactMarkdown 
-                children={markdown}
+                children={noteValue}
                 remarkPlugins={[remarkGfm]}
             />
         </Container>
