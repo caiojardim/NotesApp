@@ -4,7 +4,12 @@ import remarkGfm from 'remark-gfm'
 import {useState} from "react";
 
 export function Main() {
-    const [noteValue, setNoteValue] = useState('')
+    const [noteValue, setNoteValue] = useState('Hello World')
+    const [isEditing, setIsEditing] = useState(false)
+
+    function toggleIsEditing(){
+        setIsEditing(!isEditing)
+    }
 
     function handleInput(event:any){
         let element = event.target
@@ -20,13 +25,23 @@ export function Main() {
 
     return(
         <Container>
+            <button type="button" onClick={toggleIsEditing}>Edit</button>
             <textarea 
-            onInput={handleInput}
-            name="" id="" cols={30} rows={5}></textarea>
-            <ReactMarkdown 
-                children={noteValue}
-                remarkPlugins={[remarkGfm]}
-            />
+                onInput={handleInput}
+                cols={0} 
+                rows={5}
+                value={noteValue}
+                style={!isEditing ? {display: 'none'} : {}}
+            ></textarea>
+            <div
+                className="markdown"
+                style={isEditing ? {display: 'none'} : {}}
+            >
+                <ReactMarkdown 
+                    children={noteValue}
+                    remarkPlugins={[remarkGfm]}
+                />
+            </div>
         </Container>
     )
 }
