@@ -1,47 +1,42 @@
-import { Container } from "./style"
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import {useState} from "react";
+import { Note } from "../components/Note";
+import { Container } from './style'
+import { useState, useEffect } from "react";
 
 export function Main() {
-    const [noteValue, setNoteValue] = useState('Hello World')
-    const [isEditing, setIsEditing] = useState(false)
+    function datatimeRandom() {
+        return((new Date().getTime() / 1000) * Math.random());
+    }  
+    const [notesList, setNotesList] = useState([
+        <Note 
+            id={datatimeRandom()} 
+            key={datatimeRandom()}
+            handleDeleteNote = {handleDeleteNote}
+        />])
 
-    function toggleIsEditing(){
-        setIsEditing(!isEditing)
+    function handleNewNote() {
+        setNotesList([...notesList, 
+        <Note 
+            id={datatimeRandom()} 
+            key={datatimeRandom()} 
+            handleDeleteNote = {handleDeleteNote}
+        />])     
     }
 
-    function handleInput(event:any){
-        let element = event.target
-        setNoteValue(element.value);
-
-        while (element.scrollHeight < element.offsetHeight && element.rows > 5) {
-            element.rows -= 1;
-        }
-        while (element.scrollHeight > element.offsetHeight) {
-            element.rows += 1;
-        }     
+    function handleDeleteNote(id:number) {
+        console.log(notesList)
+        console.log(notesList.filter(note => note.props.id !== id ))
+        /* setNotesList(notesList.filter((note) => {
+            if(note.props.id !== id){
+                return true
+            }else {
+                return false
+            }
+        })) */
     }
-
     return(
         <Container>
-            <button type="button" onClick={toggleIsEditing}>Edit</button>
-            <textarea 
-                onInput={handleInput}
-                cols={0} 
-                rows={5}
-                value={noteValue}
-                style={!isEditing ? {display: 'none'} : {}}
-            ></textarea>
-            <div
-                className="markdown"
-                style={isEditing ? {display: 'none'} : {}}
-            >
-                <ReactMarkdown 
-                    children={noteValue}
-                    remarkPlugins={[remarkGfm]}
-                />
-            </div>
+            <button onClick={handleNewNote}>Nova nota</button>
+            {notesList.map((note) => <div>{note.props.id}{note}</div>)}
         </Container>
     )
 }
