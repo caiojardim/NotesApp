@@ -23,15 +23,9 @@ export function Main() {
     }
 
     function handleDeleteNote(id:number) {
-        console.log(notesList)
-        console.log(notesList.filter(note => note.props.id !== id ))
-        /* setNotesList(notesList.filter((note) => {
-            if(note.props.id !== id){
-                return true
-            }else {
-                return false
-            }
-        })) */
+        console.log(id)
+        console.log(notesList[0].props.id)
+        setNotesList(notesList.filter((function(note){return note.props.id !== id})))
     }
     return(
         <Container>

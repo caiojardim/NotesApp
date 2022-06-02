@@ -8,6 +8,14 @@ interface NoteProps{
     handleDeleteNote: (id:number) => void
 }
 
+/*
+{
+    id: 1,
+    noteValue: 'Hello World',
+    isEditing: false
+}
+*/
+
 export function Note({handleDeleteNote, id}: NoteProps) {
     const [noteValue, setNoteValue] = useState('Hello World')
     const [isEditing, setIsEditing] = useState(false)
