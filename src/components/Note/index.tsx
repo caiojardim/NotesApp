@@ -1,32 +1,22 @@
 import { Container } from "./style"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import {useState} from "react";
+import {useState, useContext} from "react";
+import { NotesContext, NoteType } from '../../NotesContext'
 
-interface NoteProps{
-    id: number
-    handleDeleteNote: (id:number) => void
-}
+export function Note({id, noteValue, isEditing}: NoteType) {
+    const {setNoteValue, setIsEditing, handleDeleteNote} = useContext(NotesContext)
 
-/*
-{
-    id: 1,
-    noteValue: 'Hello World',
-    isEditing: false
-}
-*/
-
-export function Note({handleDeleteNote, id}: NoteProps) {
-    const [noteValue, setNoteValue] = useState('Hello World')
-    const [isEditing, setIsEditing] = useState(false)
+    /* const [noteValue, setNoteValue] = useState('Hello World')
+    const [isEditing, setIsEditing] = useState(false) */
 
     function toggleIsEditing(){
-        setIsEditing(!isEditing)
+        setIsEditing(id, !isEditing)
     }
 
     function handleInput(event:any){
         let element = event.target
-        setNoteValue(element.value);
+        setNoteValue(id, element.value);
 
         while (element.scrollHeight < element.offsetHeight && element.rows > 5) {
             element.rows -= 1;
