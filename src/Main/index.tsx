@@ -26,7 +26,10 @@ export function Main() {
 
     return(
         <Container>
-            <button onClick={handleNewNote}>Nova nota</button>
+            <header>
+                <h1>Notes App</h1>
+                <button onClick={handleNewNote}>+</button>
+            </header>
             {Notes.map((note: NoteType) => 
             <Note key = {note.id}
                 id={note.id} 
